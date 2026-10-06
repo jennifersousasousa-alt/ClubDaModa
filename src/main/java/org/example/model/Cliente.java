@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -20,6 +22,11 @@ public class Cliente {
     private String email;
 
     private String telefone;
+
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.REMOVE)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnoreProperties("cliente")
+    private Endereco endereco;
 
     public Cliente() {
     }
@@ -54,5 +61,9 @@ public class Cliente {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
     }
 }

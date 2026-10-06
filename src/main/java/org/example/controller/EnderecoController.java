@@ -1,8 +1,8 @@
 package org.example.controller;
 
 import jakarta.validation.Valid;
-import org.example.model.Produto;
-import org.example.service.ProdutoService;
+import org.example.model.Endereco;
+import org.example.service.EnderecoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,34 +10,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/produtos")
-public class ProdutoController {
+@RequestMapping("/enderecos")
+public class EnderecoController {
 
-    private final ProdutoService service;
+    private final EnderecoService service;
 
-    public ProdutoController(ProdutoService service) {
+    public EnderecoController(EnderecoService service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<Produto> listar() {
+    public List<Endereco> listar() {
         return service.listar();
     }
 
     @GetMapping("/{id}")
-    public Produto buscarPorId(@PathVariable Long id) {
+    public Endereco buscarPorId(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criar(@Valid @RequestBody Produto produto) {
-        Produto salvo = service.criar(produto);
+    public ResponseEntity<Endereco> criar(@Valid @RequestBody Endereco endereco) {
+        Endereco salvo = service.criar(endereco);
         return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
     @PutMapping("/{id}")
-    public Produto atualizar(@PathVariable Long id, @Valid @RequestBody Produto produto) {
-        return service.atualizar(id, produto);
+    public Endereco atualizar(@PathVariable Long id, @Valid @RequestBody Endereco endereco) {
+        return service.atualizar(id, endereco);
     }
 
     @DeleteMapping("/{id}")
