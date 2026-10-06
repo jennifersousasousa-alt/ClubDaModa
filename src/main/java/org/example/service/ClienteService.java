@@ -48,10 +48,15 @@ public class ClienteService {
     @Transactional
     public void excluir(Long id) {
         Cliente cliente = buscarPorId(id);
+
+        if (!cliente.getPedidos().isEmpty()) {
+            throw new RegraNegocioException(
+                    "Não é possível excluir o cliente, pois ele possui pedidos cadastrados");
+        }
+
         repository.delete(cliente);
     }
 
-    // Garante que nenhum outro cliente use o mesmo e-mail.
     private void validarEmailDisponivel(String email, Long idAtual) {
         repository.findByEmail(email).ifPresent(outro -> {
             if (!outro.getId().equals(idAtual)) {

@@ -52,6 +52,12 @@ public class ProdutoService {
     @Transactional
     public void excluir(Long id) {
         Produto produto = buscarPorId(id);
+
+        if (!produto.getPedidos().isEmpty()) {
+            throw new RegraNegocioException(
+                    "Não é possível excluir o produto, pois ele está em pedidos cadastrados");
+        }
+
         repository.delete(produto);
     }
 

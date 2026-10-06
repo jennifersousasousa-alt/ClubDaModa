@@ -1,5 +1,6 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Produto {
@@ -34,6 +37,10 @@ public class Produto {
     @NotNull(message = "A categoria é obrigatória")
     @JsonIgnoreProperties("produtos")
     private Categoria categoria;
+
+    @ManyToMany(mappedBy = "produtos")
+    @JsonIgnore
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Produto() {
     }
@@ -84,5 +91,9 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 }

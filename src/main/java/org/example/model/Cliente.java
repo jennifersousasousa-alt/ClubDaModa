@@ -1,10 +1,14 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cliente {
@@ -27,6 +31,10 @@ public class Cliente {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonIgnoreProperties("cliente")
     private Endereco endereco;
+
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {
     }
@@ -65,5 +73,9 @@ public class Cliente {
 
     public Endereco getEndereco() {
         return endereco;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 }
